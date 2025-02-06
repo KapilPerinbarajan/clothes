@@ -1,0 +1,2 @@
+# **IDEA**
+- Building an online shopping website where users can browse different clothes, view product details, select sizes, colors, and quantities, and add items to their cart. They can create accounts to place orders, track shipments, and view their order history. Admins will have a dedicated dashboard to manage product listings, inventory, and customer orders. The website will be fully responsive, providing a seamless experience on both desktop and mobile devices.
