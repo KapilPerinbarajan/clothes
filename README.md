@@ -21,5 +21,10 @@ To design and develop a full-stack e-commerce platform for clothing that offers 
   - Secure order placement with address input, shipping method, and payment selection.
 - Order Confirmation:
   - Displays a summary of the order with tracking information.
-  -
-  -
+  
+
+## **Tech Stack**
+
+- Frontend :React
+- Backend  :Node.js
+- Database :Mongo DB
