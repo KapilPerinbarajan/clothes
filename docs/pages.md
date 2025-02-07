@@ -8,4 +8,4 @@
     6.Cart Page
     7.Order Confirmation Page
     8.Account Page
-    9.Contact page
+    9.Contact page.
