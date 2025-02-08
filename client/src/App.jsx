@@ -6,7 +6,7 @@ import './App.css'
 function App() {
   return(
     <h1>
-      Hello kapil
+      Hello kapil!
     </h1>
   )
  
