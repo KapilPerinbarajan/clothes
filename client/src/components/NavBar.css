@@ -1,0 +1,38 @@
+.nav-bar-container {
+    position: fixed;
+    top: 0;
+    min-width: inherit;
+  }
+  .nav-bar-container .nav-bar {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.909);
+    color: white;
+    padding: 10px;
+  }
+  .nav-bar-container .item {
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    display: flex;
+    text-transform: uppercase;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 1s;
+    border-bottom: 5px solid transparent;
+  }
+  .nav-bar-container .nav-bar .item:hover {
+    color: black;
+    background-color: rgb(139, 139, 139);
+    border-radius: 10px;
+    opacity: 95%;
+  }
+  .nav-bar-container .active {
+    color: white;
+    border-bottom-color: white;
+  }
+  
