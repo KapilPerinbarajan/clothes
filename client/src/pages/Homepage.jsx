@@ -13,7 +13,7 @@ const images = [
 
 const categories = [
   { name: "Polo T-Shirts", icon: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSJc0dnBnEmO0Ca2gHYZeGWYFTEiDTr9Blh22Y4cZqJWHZyXdi-HwC6VGTxZvY1y7uC8zdn6QG1rIGgPVRDxZIslYIzg2W5y1Tuq-yXE2--gmCe7VtayhaLuKxELVMXXP_0JdLoQw&usqp=CAc", textcolor :"black",path: "/polo" },
-  { name: "Round Neck T-Shirts", icon: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRTZX6yGfeDZF7I7d59OJonR_Ugh2gV5iv5DQTcBXgfbyV_dCPuN1vatxMZRAEtvbS6fhxY7HTGxHpKX6z687-pwIlsWIm7q1CkyqCJBaY3-iNny3YTbyzYfbSwMkirnA00Q8lu6A&usqp=CAc",textcolor :"black", path: "/roundneck" },
+  { name: "Round Neck T-Shirts", icon: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcRTZX6yGfeDZF7I7d59OJonR_Ugh2gV5iv5DQTcBXgfbyV_dCPuN1vatxMZRAEtvbS6fhxY7HTGxHpKX6z687-pwIlsWIm7q1CkyqCJBaY3-iNny3YTbyzYfbSwMkirnA00Q8lu6A&usqp=CAc",textcolor :"black", path: "/round" },
   { name: "Shirts", icon: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQ7zHani16eomFRZEgwrAGwZ8cwmLJyPAb0pojJsQFTpK3orb-d7aZDilkGx747ZcVaUjABflosGBj4LAcQPW800G7iPYCZeE6CoqK8F-OKqTA1V3Ap4QdexA", textcolor :"black", path: "/shirts" },
   { name: 'Sweat Shirts', icon: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcSNXoidnjo-IORzFEJ_v74MEjC4ShLv6B9dQjJHcRgRZmIBYaGG7WD1NJelZtWl0g3sbOF6GWUdYHFlbqQtXxytRSOR38AaWcpvWhXCRpILAmKthdLhrO1dJTk&usqp=CAE", textcolor :"black",path: "/sweatshirts" },
   { name: 'Trousers', icon: 'https://image.hm.com/assets/hm/b0/43/b043f0f0eeaba1bcf1ea0d7937bfe6bd48925a05.jpg?imwidth=396', textcolor :"black",path: "/trousers" },
