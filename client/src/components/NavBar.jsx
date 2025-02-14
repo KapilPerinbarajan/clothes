@@ -1,33 +1,30 @@
-import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import "./NavBar.css";
 
-function NavBar({ ITEMS, setActivePageIndex }) {
-    const [active, setActive] = useState(0);
+const NAVBAR_ITEMS = [
+  { icon: "🏠", text: "Home", path: "/" },
+  { icon: "🛒", text: "Cart", path: "/cart" },
+  { icon: "🔍", text: "Search", path: "/search" },
+  { icon: "👤", text: "Profile", path: "/profile" },
+];
 
-    function handleClick(index) {
-        setActive(index);
-        setActivePageIndex(index);
-    }
-    return (
-        <div className="nav-bar-container">
-            <div className="nav-bar">
-                {
-                    ITEMS.map((val, idx) => {
-                        return (
-                            <div
-                                key={idx}
-                                className={"item " + (idx === active ? " active" : "")}
-                                onClick={() => handleClick(idx)}
-                            >
-                                <div className="icon">{val.icon}</div>
-                                <div className="text">{val.text}</div>
-                            </div>
-                        );
-                    })
-                }
-            </div>
-        </div >
-    );
+function NavBar() {
+  return (
+    <div className="nav-bar-container">
+      <div className="nav-bar">
+        {NAVBAR_ITEMS.map((item, idx) => (
+          <NavLink
+            key={idx}
+            to={item.path}
+            className={({ isActive }) => "item" + (isActive ? " active" : "")}
+          >
+            <div className="icon">{item.icon}</div>
+            <div className="text">{item.text}</div>
+          </NavLink>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default NavBar;

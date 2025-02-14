@@ -1,30 +1,31 @@
-import { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/Homepage";
-import CartPage from "./pages/CartPage";  // Fix capitalization
+import CartPage from "./pages/CartPage";
 import SearchPage from "./pages/Searchpage";
 import ProfilePage from "./pages/Profilepage";
+import CategoryPage from "./pages/CategoryPage"; // Handles category navigation
+import PoloPage from "./pages/PoloPage";
 
 function App() {
-  const [activePageIndex, setActivePageIndex] = useState(0);
-
-  const NAVBAR_ITEMS = [
-    { icon: "🏠", text: "home", component: <HomePage /> },
-    { icon: "🖼️", text: "cart", component: <CartPage /> },  // Fix capitalization
-    { icon: "🔍", text: "search", component: <SearchPage /> },
-    { icon: "🤦", text: "Profile", component: <ProfilePage /> },
-  ];
-
-  const activePage = NAVBAR_ITEMS[activePageIndex].component;
-
   return (
-    <div className="app">
-      <NavBar ITEMS={NAVBAR_ITEMS} setActivePageIndex={setActivePageIndex} />
-      <div className="main-container">
-        {activePage}
+    <Router>
+      <div className="app">
+        <NavBar />
+        <div className="main-container">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/polo" element={<PoloPage />} />
+
+            <Route path="/:category" element={<CategoryPage />} />
+          </Routes>
+        </div>
       </div>
-    </div>
+    </Router>
   );
 }
 
