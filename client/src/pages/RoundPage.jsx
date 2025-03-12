@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from "react";
 import "./roundpage.css";
 
@@ -24,6 +27,41 @@ const RoundPage = () => {
       ...prevCart,
       [id]: { ...prevCart[id], [field]: value },
     }));
+  };
+
+  const addToCart = (product) => {
+    const { size, quantity } = cart[product.id] || {};
+
+    if (!size) {
+      alert("Please select a size before adding to cart.");
+      return;
+    }
+
+    const newCartItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      color: product.color,
+      image: product.image,
+      size,
+      quantity: parseInt(quantity) || 1,
+    };
+
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if the item with the same size already exists in the cart
+    const existingItemIndex = storedCart.findIndex(
+      (item) => item.id === product.id && item.size === size
+    );
+
+    if (existingItemIndex !== -1) {
+      storedCart[existingItemIndex].quantity += newCartItem.quantity;
+    } else {
+      storedCart.push(newCartItem);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(storedCart));
+    alert("Item added to cart!");
   };
 
   return (
@@ -57,7 +95,7 @@ const RoundPage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button onClick={() => console.log(cart)}>Add to Cart</button>
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>

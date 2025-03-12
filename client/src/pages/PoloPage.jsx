@@ -16,7 +16,6 @@ const poloProducts = [
   { id: 12, name: "Printed polo t shirts", price: 1099, color: "White", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYYvY8RLOpU8nXyjOq9xbvHEO4yZuG87QSODZVANqg5IJLo9nSvw6GHKW1vL5JeUoqtg4&usqp=CAU" },
 
 ];
-
 const PoloPage = () => {
   const [cart, setCart] = useState({});
 
@@ -25,6 +24,42 @@ const PoloPage = () => {
       ...prevCart,
       [id]: { ...prevCart[id], [field]: value },
     }));
+  };
+
+  const handleAddToCart = (product) => {
+    const selectedSize = cart[product.id]?.size;
+    const selectedQuantity = parseInt(cart[product.id]?.quantity) || 1;
+
+    if (!selectedSize) {
+      alert("Please select a size before adding to cart.");
+      return;
+    }
+
+    const cartData = JSON.parse(localStorage.getItem("cart")) || [];
+    
+    // Check if the product already exists in the cart (same ID & size)
+    const existingItemIndex = cartData.findIndex(
+      (item) => item.id === product.id && item.size === selectedSize
+    );
+
+    if (existingItemIndex !== -1) {
+      // Update the quantity if the product is already in the cart
+      cartData[existingItemIndex].quantity += selectedQuantity;
+    } else {
+      // Add new item to the cart
+      cartData.push({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        size: selectedSize,
+        quantity: selectedQuantity,
+        color: product.color,
+        image: product.image,
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cartData));
+    alert("Item added to cart!");
   };
 
   return (
@@ -58,7 +93,7 @@ const PoloPage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button onClick={() => console.log(cart)}>Add to Cart</button>
+            <button onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>

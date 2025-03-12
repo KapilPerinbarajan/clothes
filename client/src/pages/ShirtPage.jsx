@@ -1,3 +1,6 @@
+
+
+
 import React, { useState } from "react";
 import "./shirtpage.css";
 
@@ -24,6 +27,47 @@ const ShirtPage = () => {
       ...prevCart,
       [id]: { ...prevCart[id], [field]: value },
     }));
+  };
+
+  const addToCart = (product) => {
+    const selectedSize = cart[product.id]?.size;
+    const selectedQuantity = parseInt(cart[product.id]?.quantity || 1);
+
+    if (!selectedSize) {
+      alert("Please select a size before adding to cart!");
+      return;
+    }
+
+    const newItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      color: product.color,
+      size: selectedSize,
+      quantity: selectedQuantity,
+      image: product.image
+    };
+
+    // Get existing cart from localStorage
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if item already exists in cart
+    const itemIndex = existingCart.findIndex(
+      (item) => item.id === product.id && item.size === selectedSize
+    );
+
+    if (itemIndex !== -1) {
+      // Update quantity if item already exists
+      existingCart[itemIndex].quantity += selectedQuantity;
+    } else {
+      // Add new item
+      existingCart.push(newItem);
+    }
+
+    // Save updated cart to localStorage
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+
+    alert(`${product.name} (${selectedSize}) added to cart!`);
   };
 
   return (
@@ -57,7 +101,10 @@ const ShirtPage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button className="add-to-cart" onClick={() => console.log(cart)}>Add to Cart</button>
+            {/* Add to Cart Button */}
+            <button className="add-to-cart" onClick={() => addToCart(product)}>
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>

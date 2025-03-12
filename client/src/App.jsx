@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
 import NavBar from "./components/NavBar";
 import HomePage from "./pages/Homepage";
-import CartPage from "./pages/CartPage";
+import CartPage from "./pages/cartpage";
 import SearchPage from "./pages/Searchpage";
 import ProfilePage from "./pages/Profilepage";
 import CategoryPage from "./pages/CategoryPage"; // Handles category navigation

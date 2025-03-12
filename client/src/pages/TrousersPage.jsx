@@ -1,5 +1,7 @@
+
+
 import React, { useState } from "react";
-import "./trouserspage.css"; // Ensure the CSS file exists
+import "./trouserspage.css";
 
 const trousersProducts = [
   { id: 1, name: "Slim Fit Trousers", price: 1299, color: "Black", image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQWb379D3stzx5wGg_3J726WWWnySVRS6diC5XamygRP7CdYhmQkGwGT9G2hZqYiLQkvMx7LhgHfOQ9Q29VEYk-DIkIXhjqh--PILD3D2M&usqp=CAE" },
@@ -22,6 +24,24 @@ const TrousersPage = () => {
     }));
   };
 
+  const addToCart = (product) => {
+    if (!cart[product.id]?.size) {
+      alert("Please select a size.");
+      return;
+    }
+    
+    const cartItem = {
+      ...product,
+      size: cart[product.id]?.size,
+      quantity: cart[product.id]?.quantity || 1,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const updatedCart = [...existingCart, cartItem];
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    alert("Item added to cart!");
+  };
+
   return (
     <div className="trousers-page">
       <h2>Trousers Collection</h2>
@@ -33,27 +53,23 @@ const TrousersPage = () => {
             <p className="product-color"><strong>Color:</strong> {product.color}</p>
             <p className="product-price">Rs. {product.price}</p>
 
-            {/* Size Selection */}
             <label>Size: </label>
             <select onChange={(e) => handleSelection(product.id, "size", e.target.value)}>
               <option value="">Select Size</option>
               {["28", "30", "32", "34", "36", "38", "40"].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
+                <option key={size} value={size}>{size}</option>
               ))}
             </select>
 
-            {/* Quantity Selection */}
             <label>Quantity: </label>
             <input
               type="number"
               min="1"
               defaultValue="1"
-              onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
+              onChange={(e) => handleSelection(product.id, "quantity", parseInt(e.target.value) || 1)}
             />
 
-            <button className="add-to-cart" onClick={() => console.log(cart)}>Add to Cart</button>
+            <button className="add-to-cart" onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>

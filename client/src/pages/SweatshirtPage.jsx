@@ -1,5 +1,7 @@
+
 import React, { useState } from "react";
 import "./sweatshirtpage.css";
+
 
 const sweatshirtProducts = [
   { id: 1, name: "Classic Sweatshirt", price: 1499, color: "Red", image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTvJZywXnrubqQ5wLwfpkB9h2jJh0Wk7NfwIV4fKLkTmK7Q_8s6Uoco9BXU4JLNK5l1imdnilX4pwKbk2crdIx7XQms7TqdowGdN9yHh25jBu5NiDCOxnYe&usqp=CAE" },
@@ -23,6 +25,40 @@ const SweatshirtPage = () => {
     }));
   };
 
+  const addToCart = (product) => {
+    const selectedSize = cart[product.id]?.size;
+    const selectedQuantity = parseInt(cart[product.id]?.quantity || 1);
+
+    if (!selectedSize) {
+      alert("Please select a size before adding to cart!");
+      return;
+    }
+
+    const newItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      color: product.color,
+      size: selectedSize,
+      quantity: selectedQuantity,
+      image: product.image,
+    };
+
+    const existingCart = JSON.parse(localStorage.getItem("cart")) || [];
+    const itemIndex = existingCart.findIndex(
+      (item) => item.id === product.id && item.size === selectedSize
+    );
+
+    if (itemIndex !== -1) {
+      existingCart[itemIndex].quantity += selectedQuantity;
+    } else {
+      existingCart.push(newItem);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(existingCart));
+    alert(`${product.name} (${selectedSize}) added to cart!`);
+  };
+
   return (
     <div className="sweatshirt-page">
       <h2>Sweatshirts Collection</h2>
@@ -34,18 +70,14 @@ const SweatshirtPage = () => {
             <p className="product-color"><strong>Color:</strong> {product.color}</p>
             <p className="product-price">Rs. {product.price}</p>
 
-            {/* Size Selection */}
             <label>Size: </label>
             <select onChange={(e) => handleSelection(product.id, "size", e.target.value)}>
               <option value="">Select Size</option>
               {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
+                <option key={size} value={size}>{size}</option>
               ))}
             </select>
 
-            {/* Quantity Selection */}
             <label>Quantity: </label>
             <input
               type="number"
@@ -54,7 +86,9 @@ const SweatshirtPage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button className="add-to-cart" onClick={() => console.log(cart)}>Add to Cart</button>
+            <button className="add-to-cart" onClick={() => addToCart(product)}>
+              Add to Cart
+            </button>
           </div>
         ))}
       </div>
@@ -63,3 +97,5 @@ const SweatshirtPage = () => {
 };
 
 export default SweatshirtPage;
+
+

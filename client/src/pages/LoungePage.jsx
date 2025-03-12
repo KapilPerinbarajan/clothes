@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./loungepage.css"; // Ensure the CSS file exists
+import "./loungepage.css";
 
 const loungeProducts = [
   { id: 1, name: "Cotton Lounge Pants", price: 999, color: "Grey", image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSEKlNkk7q-RDi8hVQYYS-lUz2Voqnb8sma78Xt2X-iCxKVMI76vC_MAYfCsBmLArb-Me4IfG0FEjHX0WuaOtD0OkiLennx96qSD93_RsppgvjR6DAzBC_MAg&usqp=CAE" },
@@ -13,13 +13,49 @@ const loungeProducts = [
 ];
 
 const LoungePage = () => {
-  const [cart, setCart] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState({});
 
   const handleSelection = (id, field, value) => {
-    setCart((prevCart) => ({
-      ...prevCart,
-      [id]: { ...prevCart[id], [field]: value },
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], [field]: value },
     }));
+  };
+
+  const handleAddToCart = (product) => {
+    if (!selectedOptions[product.id]?.size) {
+      alert("Please select a size!");
+      return;
+    }
+
+    const quantity = selectedOptions[product.id]?.quantity || 1;
+
+    const newCartItem = {
+      ...product,
+      size: selectedOptions[product.id]?.size,
+      quantity: parseInt(quantity),
+    };
+
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    // Check if item already exists in cart
+    const existingItem = cart.find(
+      (item) => item.id === newCartItem.id && item.size === newCartItem.size
+    );
+
+    if (existingItem) {
+      cart = cart.map((item) =>
+        item.id === newCartItem.id && item.size === newCartItem.size
+          ? { ...item, quantity: item.quantity + newCartItem.quantity }
+          : item
+      );
+    } else {
+      cart.push(newCartItem);
+    }
+
+    localStorage.setItem("cart", JSON.stringify(cart));
+
+    alert(`${product.name} added to cart!`);
   };
 
   return (
@@ -38,9 +74,7 @@ const LoungePage = () => {
             <select onChange={(e) => handleSelection(product.id, "size", e.target.value)}>
               <option value="">Select Size</option>
               {["S", "M", "L", "XL", "XXL"].map((size) => (
-                <option key={size} value={size}>
-                  {size}
-                </option>
+                <option key={size} value={size}>{size}</option>
               ))}
             </select>
 
@@ -53,7 +87,7 @@ const LoungePage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button className="add-to-cart" onClick={() => console.log(cart)}>Add to Cart</button>
+            <button className="add-to-cart" onClick={() => handleAddToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>

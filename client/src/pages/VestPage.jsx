@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./vestpage.css"; // Ensure the CSS file exists
 
 const vestProducts = [
@@ -12,14 +12,61 @@ const vestProducts = [
   { id: 8, name: "Relaxed Fit Brown Vest", price: 549, color: "Brown", image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcQX1BkYeKHjrGhPRVg-xEtQtM3zpVFMSVIMgCYyJml9d006mBSAYIdCkBdGixRPFjh898Oap3MfmILzJvG8KZtalOfEmAyoelLWWwzL-57d5nB0s6lP0aqD&usqp=CAE" },
 ];
 
+
 const VestPage = () => {
-  const [cart, setCart] = useState({});
+  const [cart, setCart] = useState([]);
+  const [selections, setSelections] = useState({}); // Stores size & quantity selections
+
+  // Load cart from localStorage when component mounts
+  useEffect(() => {
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    setCart(storedCart);
+  }, []);
+
+  // Save cart to localStorage whenever cart updates
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
 
   const handleSelection = (id, field, value) => {
-    setCart((prevCart) => ({
-      ...prevCart,
-      [id]: { ...prevCart[id], [field]: value },
+    setSelections((prev) => ({
+      ...prev,
+      [id]: { ...prev[id], [field]: value },
     }));
+  };
+
+  const addToCart = (product) => {
+    const selected = selections[product.id];
+
+    if (!selected?.size) {
+      alert("Please select a size before adding to cart.");
+      return;
+    }
+
+    const existingItemIndex = cart.findIndex((item) => item.id === product.id);
+    let updatedCart;
+
+    if (existingItemIndex !== -1) {
+      // If item already exists, update its quantity
+      updatedCart = cart.map((item, index) =>
+        index === existingItemIndex
+          ? { ...item, quantity: item.quantity + (parseInt(selected.quantity) || 1) }
+          : item
+      );
+    } else {
+      // Add new item to cart
+      updatedCart = [
+        ...cart,
+        {
+          ...product,
+          size: selected.size,
+          quantity: parseInt(selected.quantity) || 1,
+        },
+      ];
+    }
+
+    setCart(updatedCart);
+    alert(`${product.name} added to cart!`);
   };
 
   return (
@@ -53,7 +100,7 @@ const VestPage = () => {
               onChange={(e) => handleSelection(product.id, "quantity", e.target.value)}
             />
 
-            <button className="add-to-cart" onClick={() => console.log(cart)}>Add to Cart</button>
+            <button className="add-to-cart" onClick={() => addToCart(product)}>Add to Cart</button>
           </div>
         ))}
       </div>
