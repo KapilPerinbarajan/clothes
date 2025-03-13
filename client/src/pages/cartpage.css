@@ -1,58 +1,260 @@
-.cart-page {
-  max-width: 800px;
-  margin: auto;
-  padding: 20px;
+/* General Styling */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f7f7f7;
+  color: #f0e9e9;
 }
 
+/* Cart Page Container */
+.cart-container {
+  width: 90%;
+  margin: 30px auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* Cart Items Section */
+.cart-items-section {
+  width: 65%;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart Summary (Right Side) */
+.cart-summary-section {
+  width: 30%;
+  background: white;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 20px;
+}
+
+/* Cart Header */
+.cart-header {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 25px;
+  border-bottom: 3px solid #ddd;
+  padding-bottom: 12px;
+}
+
+/* Cart Item Box */
 .cart-item {
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  gap: 25px;
+  padding: 25px 0;
   border-bottom: 1px solid #ddd;
-  padding-bottom: 10px;
 }
 
-.cart-image {
-  width: 100px;
+/* Product Image */
+.cart-item img {
+  width: 150px;
   height: auto;
-  margin-right: 20px;
+  border-radius: 8px;
+  transition: transform 0.3s;
 }
 
-.cart-details {
-  flex-grow: 1;
+.cart-item img:hover {
+  transform: scale(1.08);
 }
 
-.quantity-control {
+/* Item Details */
+.item-details {
+  flex: 1;
+}
+
+/* Item Name */
+.item-name {
+  font-weight: bold;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+/* Item Options */
+.item-options {
+  font-size: 15px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* Item Price */
+.item-price {
+  font-size: 22px;
+  font-weight: bold;
+  color: #b12704;
+}
+
+/* Quantity Selector */
+.quantity-selector {
   display: flex;
   align-items: center;
+  gap: 12px;
+  border: 2px solid #ddd;
+  padding: 7px;
+  border-radius: 8px;
+  background: #fff;
 }
 
-.quantity-control button {
-  width: 30px;
-  height: 30px;
+.quantity-selector button {
+  width: 40px;
+  height: 40px;
   border: none;
-  background: #ddd;
+  background: #e7e7e7;
+  font-size: 20px;
   cursor: pointer;
+  transition: 0.3s;
+  border-radius: 6px;
 }
 
-.quantity-control input {
-  width: 50px;
+.quantity-selector button:hover {
+  background: #ccc;
+}
+
+.quantity-selector input {
+  width: 55px;
   text-align: center;
-  margin: 0 5px;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  font-weight: bold;
 }
 
-.remove-btn {
-  background: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
+/* Remove Button */
+.remove-item {
+  color: #b12704;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s;
 }
 
-.checkout-btn {
-  background: green;
-  color: white;
-  padding: 10px;
-  border: none;
+.remove-item:hover {
+  color: #a61d00;
+}
+
+/* Cart Summary */
+.cart-summary {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-summary span {
+  font-weight: normal;
+}
+
+/* Checkout Button */
+.checkout-button {
+  background: #ffd814;
+  color: #111;
+  padding: 18px;
+  text-align: center;
+  font-weight: bold;
   cursor: pointer;
+  display: block;
+  border-radius: 8px;
+  font-size: 20px;
+  transition: 0.3s;
+  text-transform: uppercase;
+  box-shadow: 0 3px 7px rgba(0, 0, 0, 0.15);
+}
+
+.checkout-button:hover {
+  background: #f7ca00;
+}
+
+.checkout-button:active {
+  transform: scale(0.96);
+}
+
+/* Payment Modal */
+.payment-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.payment-modal.active {
+  display: flex;
+}
+
+.payment-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 420px;
+  text-align: center;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.payment-content h2 {
+  margin-bottom: 25px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.payment-methods button {
+  display: block;
+  width: 100%;
+  padding: 14px;
+  margin: 12px 0;
+  border: none;
+  background: #007185;
+  color: rgb(199, 22, 22);
+  font-size: 18px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-weight: bold;
+}
+
+.payment-methods button:hover {
+  background: #004f60;
+}
+
+.payment-details {
+  display: none;
+  margin-top: 15px;
+}
+
+.payment-methods button.active + .payment-details {
+  display: block;
+}
+
+.close-payment {
+  margin-top: 20px;
+  cursor: pointer;
+  color: red;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+@keyframes fadeIn {
+  from {
+      opacity: 0;
+      transform: translateY(-20px);
+  }
+  to {   
+      opacity: 1;
+      transform: translateY(0);
+  }
 }

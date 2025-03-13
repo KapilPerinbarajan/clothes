@@ -14,6 +14,34 @@ const PaymentPage = () => {
   const [upiId, setUpiId] = useState("");
   const [netBankingDetails, setNetBankingDetails] = useState({ bankName: "", accountNumber: "", ifsc: "" });
 
+  const handleDetailChange = (e) => {
+    const { name, value } = e.target;
+    setNetBankingDetails((prevDetails) => ({
+      ...prevDetails,
+      [name]: value,
+    }));
+  };
+
+  const handleCardChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name === "number" || name === "cvv") {
+      if (!/^\d*$/.test(value)) {
+        alert("⚠️ Enter only numbers!");
+        return;
+      }
+      setCardDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
+    }
+
+    if (name === "expiry") {
+      const formattedValue = value.replace(/[^0-9/]/g, "").slice(0, 5);
+      if (value !== formattedValue) {
+        alert("⚠️ Only numbers and '/' allowed in expiry date!");
+      }
+      setCardDetails((prevDetails) => ({ ...prevDetails, [name]: formattedValue }));
+    }
+  };
+
   const handlePayment = () => {
     if (paymentMethod === "card" && (!cardDetails.number || !cardDetails.expiry || !cardDetails.cvv)) {
       alert("Please enter complete card details.");
@@ -29,16 +57,8 @@ const PaymentPage = () => {
     }
 
     alert("Payment Successful! 🎉");
-    setShowPopup(false); // Close modal
-    navigate("/"); // Redirect to homepage
-  };
-
-  const handleDetailChange = (e) => {
-    const { name, value } = e.target;
-    setNetBankingDetails((prevDetails) => ({
-      ...prevDetails,
-      [name]: value,
-    }));
+    setShowPopup(false);
+    navigate("/");
   };
 
   return (
@@ -55,7 +75,6 @@ const PaymentPage = () => {
 
       <button className="close-payment" onClick={() => navigate("/cart")}>❌ Cancel</button>
 
-      {/* Modal for all payment methods */}
       {showPopup && (
         <div className="modal-overlay">
           <div className="modal">
@@ -64,9 +83,16 @@ const PaymentPage = () => {
             {paymentMethod === "card" && (
               <div>
                 <h3>Enter Card Details</h3>
-                <input type="text" name="number" placeholder="Card Number" value={cardDetails.number} onChange={handleDetailChange} />
-                <input type="text" name="expiry" placeholder="Expiry Date (MM/YY)" value={cardDetails.expiry} onChange={handleDetailChange} />
-                <input type="password" name="cvv" placeholder="CVV" value={cardDetails.cvv} onChange={handleDetailChange} />
+                <input type="text" name="number" placeholder="Card Number" value={cardDetails.number} onChange={handleCardChange} maxLength="16" />
+                <input
+                  type="text"
+                  name="expiry"
+                  placeholder="MM/YY"
+                  value={cardDetails.expiry}
+                  onChange={handleCardChange}
+                  maxLength="5"
+                />
+                <input type="password" name="cvv" placeholder="CVV" value={cardDetails.cvv} onChange={handleCardChange} maxLength="3" />
                 <button className="confirm-payment" onClick={handlePayment}>💳 Pay Now</button>
               </div>
             )}
@@ -82,7 +108,17 @@ const PaymentPage = () => {
             {paymentMethod === "netbanking" && (
               <div>
                 <h3>Enter Net Banking Details</h3>
-                <input type="text" name="bankName" placeholder="Bank Name" value={netBankingDetails.bankName} onChange={handleDetailChange} />
+                <select name="bankName" value={netBankingDetails.bankName} onChange={handleDetailChange}>
+                  <option value="">Select Bank</option>
+                  <option value="State Bank of India">State Bank of India</option>
+                  <option value="HDFC Bank">HDFC Bank</option>
+                  <option value="ICICI Bank">ICICI Bank</option>
+                  <option value="Axis Bank">Axis Bank</option>
+                  <option value="Other">Other (Enter Manually)</option>
+                </select>
+                {netBankingDetails.bankName === "Other" && (
+                  <input type="text" name="bankName" placeholder="Enter Bank Name" onChange={handleDetailChange} />
+                )}
                 <input type="text" name="accountNumber" placeholder="Account Number" value={netBankingDetails.accountNumber} onChange={handleDetailChange} />
                 <input type="text" name="ifsc" placeholder="IFSC Code" value={netBankingDetails.ifsc} onChange={handleDetailChange} />
                 <button className="confirm-payment" onClick={handlePayment}>🏦 Proceed</button>
